@@ -1,0 +1,89 @@
+import random
+import pandas as pd
+from faker import Faker
+fake = Faker()
+print(fake.name())  # This should print a randomly generated name
+# Initialize Faker
+fake = Faker()
+
+# Define roles and skillsets
+roles = {
+    "Data Scientist": ["Python", "Statistics", "Machine Learning", "Deep Learning", "SQL"],
+    "Data Engineer": ["MLOps", "Airflow", "ETL", "Big Data", "Spark"],
+    "Software Engineer": ["Java", "C++", "JavaScript", "React", "Node.js"],
+    "Product Manager": ["Roadmap Planning", "Stakeholder Management", "Agile", "Scrum", "UX"],
+    "UI Engineer": ["HTML", "CSS", "JavaScript", "Figma", "UI Testing"]
+}
+
+# Define experience levels and work environments
+experience_levels = ["Entry-level", "Mid-level", "Senior-level", "Lead", "Director"]
+work_environments = ["Remote", "Hybrid", "In-office"]
+
+# Generate dataset
+data = []
+
+for i in range(1, 501):  # Generate 500 candidates
+    # Generate ID
+    id_value = f"chanda01{i}"
+
+    # Randomly generate candidate details
+    name = fake.name()
+    role = random.choice(list(roles.keys()))
+    skillset = roles[role]
+    experience = random.choice(experience_levels)
+    work_env = random.choice(work_environments)
+
+    # Simulate interview performance
+    poorly_performed_skills = random.sample(skillset, random.randint(0, min(3, len(skillset))))
+    outcome = random.choice(["Selected", "Rejected"])
+    reason = (
+        "Excellent technical knowledge" if outcome == "Selected" else
+        random.choice(["Lack of experience", "Insufficient technical skills", "Poor business acumen"])
+    )
+
+    # Generate interview transcript
+    transcript = (
+        f"Interviewer: Can you explain {random.choice(skillset)}?\n"
+        f"Candidate: {fake.sentence()}\n"
+        f"Interviewer: What about {random.choice(skillset)}?\n"
+        f"Candidate: {fake.sentence()}\n"
+        f"Outcome: {outcome}. Reason: {reason}."
+    )
+
+    # Generate resume
+    resume = (
+        f"Name: {name}\n"
+        f"Role: {role}\n"
+        f"Experience: {experience}\n"
+        f"Preferred Work Environment: {work_env}\n"
+        f"Key Skills: {', '.join(skillset)}\n"
+        f"Summary: {fake.paragraph()}"
+    )
+
+    # Append data
+    data.append({
+        "ID": id_value,
+        "Name": name,
+        "Role": role,
+        "Transcript": transcript,
+        "Resume": resume,
+        "Performance (select/reject)": outcome,
+        "Reason for decision": reason,
+        "Job Description": f"Looking for a {role} with skills in {', '.join(skillset)}."
+    })
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Save to excel
+output_file = "devathi_reddy_chandana_data.xlsx"
+df.to_excel(output_file, index=False)
+print(f"Data saved to {output_file}")
+
+# Display DataFrame (optional)
+from IPython.display import display
+
+display(df)
+
+# Save the DataFrame to a excel
+df.to_excel("devathi_reddy_chandana_data.xlsx", index=False)
