@@ -1,0 +1,9 @@
+openai
+langchain
+pandas
+numpy
+scikit-learn
+flask
+fastapi
+pydantic
+python-dotenv
